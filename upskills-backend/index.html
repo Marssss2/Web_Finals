@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UpSkills — Learn. Build. Grow.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060910;--surface:#0d1117;--card:#111827;--card2:#0f1923;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --green:#00e5a0;--green2:#00b87a;--blue:#3b82f6;--yellow:#f5c518;
+  --text:#eef2ff;--muted:#6b7a99;--muted2:#9aa3bb;
+  --r:16px;--font:'DM Sans',sans-serif;--display:'Bricolage Grotesque',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;z-index:0;
+}
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2.5rem;background:rgba(6,9,16,0.8);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.35rem;font-weight:800;color:var(--text);letter-spacing:-0.5px;text-decoration:none;}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:#060910;font-family:var(--display);}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted2);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.btn-nav-ghost{background:none;border:1px solid var(--border2);color:var(--muted2);padding:.5rem 1.2rem;border-radius:8px;font-family:var(--font);font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;}
+.btn-nav-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+.btn-nav-solid{background:var(--green);color:#060910;border:none;padding:.5rem 1.3rem;border-radius:8px;font-family:var(--font);font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-nav-solid:hover{background:var(--green2);transform:translateY(-1px)}
+/* USER NAV (shown when logged in) */
+.user-chip{display:none;align-items:center;gap:8px;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);border-radius:99px;padding:.35rem .9rem .35rem .5rem;cursor:pointer;position:relative}
+.user-chip .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:#060910}
+.user-chip span{font-size:.82rem;font-weight:600;color:var(--green)}
+.user-menu{position:absolute;top:calc(100% + 8px);right:0;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:.5rem;min-width:170px;display:none;z-index:200}
+.user-chip:hover .user-menu{display:block}
+.user-menu a,.user-menu button{display:block;width:100%;text-align:left;padding:.5rem .85rem;font-size:.84rem;color:var(--muted2);background:none;border:none;cursor:pointer;border-radius:8px;transition:all .2s;font-family:var(--font);text-decoration:none}
+.user-menu a:hover,.user-menu button:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.user-menu .logout{color:#ff8080}
+.user-menu .logout:hover{background:rgba(255,80,80,.08)}
+.hero{position:relative;z-index:1;padding:8rem 2.5rem 6rem;max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.hero-glow{position:absolute;top:0;left:0;right:0;height:600px;pointer-events:none;background:radial-gradient(ellipse 60% 60% at 30% 20%,rgba(0,229,160,.12) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 80% 40%,rgba(59,130,246,.10) 0%,transparent 55%);}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.25);color:var(--green);font-size:.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.35rem 1rem;border-radius:99px;margin-bottom:1.5rem;}
+.hero-eyebrow span{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+.hero h1{font-family:var(--display);font-size:clamp(2.6rem,5vw,4.2rem);font-weight:800;line-height:1.08;letter-spacing:-2px;margin-bottom:1.5rem;}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero-sub{color:var(--muted2);font-size:1.05rem;line-height:1.75;margin-bottom:2.5rem;max-width:460px}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--green);color:#060910;border:none;padding:.85rem 2rem;border-radius:10px;font-family:var(--font);font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary:hover{background:var(--green2);transform:translateY(-2px)}
+.btn-outline{background:none;border:1px solid var(--border2);color:var(--text);padding:.85rem 2rem;border-radius:10px;font-family:var(--font);font-size:1rem;font-weight:500;cursor:pointer;transition:all .2s;}
+.btn-outline:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+.hero-trust{display:flex;align-items:center;gap:.75rem;margin-top:2rem;color:var(--muted);font-size:.82rem}
+.avatar-stack{display:flex}
+.avatar-mini{width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff}
+.avatar-stack .avatar-mini:not(:first-child){margin-left:-8px}
+.hero-visual{position:relative}
+.code-window{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5);}
+.code-bar{display:flex;align-items:center;gap:6px;padding:.75rem 1rem;background:#0a0f1a;border-bottom:1px solid var(--border);}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#ffbd2e}.dot.g{background:#28ca41}
+.code-bar span{margin-left:auto;font-size:.72rem;color:var(--muted);font-family:monospace}
+.code-body{padding:1.25rem 1.5rem;font-family:monospace;font-size:.82rem;line-height:1.9}
+.c-kw{color:#c792ea}.c-fn{color:#82aaff}.c-str{color:#c3e88d}.c-num{color:#f78c6c}
+.c-cm{color:#546e7a;font-style:italic}.c-gr{color:var(--green)}
+.code-cursor{display:inline-block;width:2px;height:14px;background:var(--green);animation:blink 1s infinite;vertical-align:middle;margin-left:1px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.badge-float{position:absolute;bottom:-16px;right:-16px;background:var(--green);color:#060910;border-radius:12px;padding:.9rem 1.2rem;font-family:var(--display);font-weight:800;font-size:.8rem;line-height:1.3;box-shadow:0 8px 32px rgba(0,229,160,.3);}
+.badge-float .num{font-size:1.5rem;display:block}
+.stats-bar{position:relative;z-index:1;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);display:flex;justify-content:center;flex-wrap:wrap;}
+.stat-item{padding:2rem 3rem;text-align:center;border-right:1px solid var(--border);}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:var(--display);font-size:2.2rem;font-weight:800;color:var(--green);line-height:1}
+.stat-label{color:var(--muted2);font-size:.83rem;margin-top:4px}
+section{position:relative;z-index:1}
+.section-wrap{max-width:1200px;margin:0 auto;padding:5.5rem 2.5rem}
+.s-label{color:var(--green);font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:.7rem}
+.s-title{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.7rem);font-weight:800;letter-spacing:-1px;margin-bottom:1rem}
+.s-sub{color:var(--muted2);font-size:1rem;line-height:1.75;max-width:500px}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1.5rem;margin-top:3rem;}
+.course-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;}
+.course-card:hover{transform:translateY(-5px);border-color:rgba(0,229,160,.3);box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.course-thumb{width:100%;height:186px;object-fit:cover;display:block;background:linear-gradient(135deg,#0f1923,#111827);transition:transform .4s;}
+.course-card:hover .course-thumb{transform:scale(1.04)}
+.thumb-wrap{overflow:hidden;position:relative}
+.thumb-level{position:absolute;top:10px;left:10px;font-size:.7rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:4px 10px;border-radius:99px;backdrop-filter:blur(8px);}
+.lv-beginner{background:rgba(0,229,160,.2);color:var(--green);border:1px solid rgba(0,229,160,.3)}
+.lv-intermediate{background:rgba(59,130,246,.2);color:#93c5fd;border:1px solid rgba(59,130,246,.3)}
+.lv-advanced{background:rgba(245,197,24,.2);color:var(--yellow);border:1px solid rgba(245,197,24,.3)}
+.course-body{padding:1.25rem;flex:1;display:flex;flex-direction:column}
+.course-title{font-family:var(--display);font-size:1.05rem;font-weight:700;line-height:1.35;margin-bottom:.5rem}
+.course-desc{color:var(--muted2);font-size:.84rem;line-height:1.65;flex:1;margin-bottom:1rem}
+.course-footer{display:flex;align-items:center;justify-content:space-between;padding-top:.85rem;border-top:1px solid var(--border)}
+.course-meta-info{display:flex;align-items:center;gap:.8rem;color:var(--muted);font-size:.78rem}
+.course-meta-info span{display:flex;align-items:center;gap:4px}
+.course-price{font-family:var(--display);font-size:1.05rem;font-weight:800}
+.price-free{color:var(--green)}.price-paid{color:var(--text)}
+.enroll-btn{background:var(--green);color:#060910;border:none;padding:.42rem .9rem;border-radius:7px;font-family:var(--font);font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.enroll-btn:hover{background:var(--green2)}
+.features-bg{background:var(--surface)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem;margin-top:3rem}
+.feat-card{background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:1.6rem 1.4rem;transition:border-color .2s;}
+.feat-card:hover{border-color:rgba(0,229,160,.25)}
+.feat-icon{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.1rem;}
+.feat-card h3{font-family:var(--display);font-size:1rem;font-weight:700;margin-bottom:.45rem}
+.feat-card p{color:var(--muted2);font-size:.84rem;line-height:1.65}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;margin-top:3rem}
+.testi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;display:flex;flex-direction:column;gap:1rem;}
+.stars{color:var(--yellow);font-size:.82rem;letter-spacing:2px}
+.testi-text{color:var(--muted2);font-size:.88rem;line-height:1.75;flex:1;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:10px}
+.author-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:#060910;flex-shrink:0;}
+.author-name{font-weight:600;font-size:.88rem}
+.author-role{color:var(--muted);font-size:.75rem;margin-top:2px}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;margin-top:3rem;max-width:900px}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:2rem 1.75rem;position:relative;transition:border-color .2s;}
+.price-card.popular{border-color:var(--green);background:linear-gradient(160deg,#0a1f17,var(--card))}
+.popular-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--green);color:#060910;font-size:.72rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:99px;}
+.plan-name{font-family:var(--display);font-size:.85rem;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem}
+.plan-price{font-family:var(--display);font-size:2.8rem;font-weight:800;line-height:1;margin-bottom:.3rem}
+.plan-price sup{font-size:1.2rem;vertical-align:top;margin-top:.4rem;display:inline-block}
+.plan-period{color:var(--muted);font-size:.82rem;margin-bottom:1.5rem}
+.plan-features{list-style:none;margin-bottom:1.75rem}
+.plan-features li{padding:.45rem 0;font-size:.87rem;color:var(--muted2);display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li .chk{color:var(--green);font-size:.9rem}
+.plan-features li .x{color:var(--muted);font-size:.9rem}
+.plan-btn{width:100%;padding:.8rem;border-radius:10px;font-family:var(--font);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.plan-btn.solid{background:var(--green);color:#060910;border:none}
+.plan-btn.solid:hover{background:var(--green2)}
+.plan-btn.ghost{background:none;color:var(--text);border:1px solid var(--border2)}
+.plan-btn.ghost:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+.cta-section{background:linear-gradient(135deg,rgba(0,229,160,.12),rgba(59,130,246,.08));border-top:1px solid rgba(0,229,160,.15);border-bottom:1px solid rgba(0,229,160,.15);text-align:center;padding:6rem 2rem;position:relative;z-index:1;}
+.cta-section h2{font-family:var(--display);font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:1rem}
+.cta-section p{color:var(--muted2);font-size:1rem;margin-bottom:2rem}
+footer{position:relative;z-index:1;background:var(--surface);border-top:1px solid var(--border);padding:3rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.footer-logo{font-family:var(--display);font-size:1.1rem;font-weight:800;color:var(--green)}
+.footer-links{display:flex;gap:1.75rem;flex-wrap:wrap}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.83rem;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{color:var(--muted);font-size:.78rem}
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center;}
+.overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:2.5rem;width:min(500px,92vw);position:relative;animation:mIn .3s ease;}
+@keyframes mIn{from{opacity:0;transform:scale(.95) translateY(16px)}to{opacity:1;transform:none}}
+.modal-x{position:absolute;top:1rem;right:1rem;background:none;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.modal-x:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.modal-logo{font-family:var(--display);font-size:1.1rem;font-weight:800;color:var(--green);margin-bottom:.4rem}
+.modal h2{font-family:var(--display);font-size:1.55rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.35rem}
+.modal-sub{color:var(--muted2);font-size:.88rem;margin-bottom:1.75rem}
+/* TAB TOGGLE */
+.tab-row{display:flex;gap:4px;background:rgba(255,255,255,.05);border-radius:10px;padding:4px;margin-bottom:1.5rem}
+.tab-btn{flex:1;padding:.45rem;border:none;background:none;color:var(--muted2);font-family:var(--font);font-size:.85rem;font-weight:600;cursor:pointer;border-radius:7px;transition:all .2s;}
+.tab-btn.active{background:var(--green);color:#060910}
+.fgrp{margin-bottom:1rem}
+.fgrp label{display:block;font-size:.8rem;font-weight:600;color:var(--muted2);margin-bottom:6px}
+.fgrp input,.fgrp select{width:100%;background:#0a0f1a;border:1px solid var(--border2);color:var(--text);padding:.7rem 1rem;border-radius:9px;font-family:var(--font);font-size:.9rem;outline:none;transition:border-color .2s;appearance:none;}
+.fgrp input:focus,.fgrp select:focus{border-color:var(--green)}
+.fgrp select option{background:var(--card)}
+.submit-btn{width:100%;margin-top:.25rem;background:var(--green);color:#060910;border:none;padding:.9rem;border-radius:10px;font-family:var(--font);font-size:1rem;font-weight:800;cursor:pointer;transition:all .2s;}
+.submit-btn:hover{background:var(--green2);transform:translateY(-1px)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.form-msg{font-size:.84rem;text-align:center;border-radius:8px;padding:.65rem;margin-top:.75rem;display:none}
+.form-msg.ok{background:rgba(0,229,160,.1);color:var(--green);display:block}
+.form-msg.err{background:rgba(255,80,80,.1);color:#ff8080;display:block}
+.skel{background:linear-gradient(90deg,var(--card) 25%,rgba(255,255,255,.04) 50%,var(--card) 75%);background-size:200% 100%;animation:shim 1.4s infinite;border-radius:8px}
+@keyframes shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--green);color:var(--green);padding:.7rem 1.5rem;border-radius:99px;font-size:.85rem;font-weight:600;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:3rem;text-align:center}
+  .hero-sub{margin-inline:auto}
+  .hero-actions{justify-content:center}
+  .hero-trust{justify-content:center}
+  .hero-visual{display:none}
+  nav{padding:.75rem 1.25rem}
+  .nav-links{display:none}
+  .section-wrap{padding:4rem 1.25rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-mark">U</div>UpSkills
+  </a>
+  <ul class="nav-links">
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#features">Why Us</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+  </ul>
+  <div class="nav-right">
+    <!-- Logged-out buttons -->
+    <div id="nav-auth">
+      <button class="btn-nav-ghost" onclick="openModal('signin')">Sign In</button>
+      <button class="btn-nav-solid" style="margin-left:.5rem" onclick="openModal('signup')">Get Started →</button>
+    </div>
+    <!-- Logged-in user chip -->
+    <div class="user-chip" id="user-chip">
+      <div class="av" id="chip-av">?</div>
+      <span id="chip-name">User</span>
+      <div class="user-menu">
+        <a href="#" onclick="showAdminPanel();return false" id="admin-link" style="display:none">⚙ Admin Panel</a>
+        <button onclick="logout()" class="logout">↩ Log Out</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div style="position:relative;z-index:1">
+<div class="hero-glow"></div>
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow"><span></span> Now with AI-powered mentorship</div>
+    <h1>Level up your<br/><em>coding skills</em><br/>fast.</h1>
+    <p class="hero-sub">UpSkills is the coding school built for people who want to ship real products — not just watch videos. Learn by building. Get hired.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal('signup')">Start for Free →</button>
+      <button class="btn-outline" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">Browse Courses</button>
+    </div>
+    <div class="hero-trust">
+      <div class="avatar-stack">
+        <div class="avatar-mini" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">JR</div>
+        <div class="avatar-mini" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">MA</div>
+        <div class="avatar-mini" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">KL</div>
+        <div class="avatar-mini" style="background:linear-gradient(135deg,var(--green),var(--blue));color:#060910">+</div>
+      </div>
+      <span>Join <strong style="color:var(--text)">14,000+</strong> developers learning right now</span>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="code-window">
+      <div class="code-bar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span>lesson_01.js</span></div>
+      <div class="code-body">
+        <div><span class="c-cm">// UpSkills — Your first async function</span></div>
+        <div>&nbsp;</div>
+        <div><span class="c-kw">const</span> <span class="c-fn">fetchCourses</span> = <span class="c-kw">async</span> () => {</div>
+        <div>&nbsp;&nbsp;<span class="c-kw">const</span> res = <span class="c-kw">await</span> <span class="c-fn">fetch</span>(<span class="c-str">'/api/courses'</span>);</div>
+        <div>&nbsp;&nbsp;<span class="c-kw">const</span> data = <span class="c-kw">await</span> res.<span class="c-fn">json</span>();</div>
+        <div>&nbsp;&nbsp;<span class="c-kw">return</span> data.<span class="c-fn">filter</span>(c => c.level === <span class="c-str">'beginner'</span>);</div>
+        <div>};</div>
+        <div>&nbsp;</div>
+        <div><span class="c-fn">fetchCourses</span>().<span class="c-fn">then</span>(courses => {</div>
+        <div>&nbsp;&nbsp;<span class="c-fn">console</span>.<span class="c-fn">log</span>(<span class="c-str">`Found <span class="c-num">${courses.length}</span> courses!`</span>);</div>
+        <div>});<span class="code-cursor"></span></div>
+      </div>
+    </div>
+    <div class="badge-float"><span class="num">98%</span>Completion Rate</div>
+  </div>
+</div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">60+</div><div class="stat-label">Expert Courses</div></div>
+  <div class="stat-item"><div class="stat-num">14K+</div><div class="stat-label">Active Students</div></div>
+  <div class="stat-item"><div class="stat-num">4.9 ★</div><div class="stat-label">Average Rating</div></div>
+  <div class="stat-item"><div class="stat-num">92%</div><div class="stat-label">Got Hired</div></div>
+</div>
+
+<!-- COURSES -->
+<section id="courses" style="background:var(--bg)">
+<div class="section-wrap">
+  <div class="s-label">Curriculum</div>
+  <h2 class="s-title">Choose your path</h2>
+  <p class="s-sub">From zero to job-ready. Every course is built by engineers who actually work in the industry.</p>
+  <div class="courses-grid" id="courses-grid">
+    <div class="course-card"><div style="height:186px" class="skel"></div><div style="padding:1.25rem"><div class="skel" style="height:18px;width:70px;margin-bottom:10px"></div><div class="skel" style="height:20px;width:90%;margin-bottom:8px"></div><div class="skel" style="height:14px;width:65%"></div></div></div>
+    <div class="course-card"><div style="height:186px" class="skel"></div><div style="padding:1.25rem"><div class="skel" style="height:18px;width:70px;margin-bottom:10px"></div><div class="skel" style="height:20px;width:90%;margin-bottom:8px"></div><div class="skel" style="height:14px;width:65%"></div></div></div>
+    <div class="course-card"><div style="height:186px" class="skel"></div><div style="padding:1.25rem"><div class="skel" style="height:18px;width:70px;margin-bottom:10px"></div><div class="skel" style="height:20px;width:90%;margin-bottom:8px"></div><div class="skel" style="height:14px;width:65%"></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features-bg">
+<div class="section-wrap">
+  <div class="s-label">Why UpSkills</div>
+  <h2 class="s-title">Not your average school.</h2>
+  <p class="s-sub">We care about one metric: whether you ship and get hired. Everything is built around that.</p>
+  <div class="features-grid">
+    <div class="feat-card"><div class="feat-icon" style="background:rgba(0,229,160,.12)">🏗️</div><h3>Project-First Learning</h3><p>Every lesson ends with a project that goes straight into your portfolio. Zero filler content.</p></div>
+    <div class="feat-card"><div class="feat-icon" style="background:rgba(59,130,246,.12)">⚡</div><h3>Browser IDE Included</h3><p>Code directly in the browser. No installs, no config headaches. Start building in 30 seconds.</p></div>
+    <div class="feat-card"><div class="feat-icon" style="background:rgba(245,197,24,.12)">🤖</div><h3>AI Code Assistant</h3><p>Stuck? Our AI gives you hints — not full answers — so you actually learn, not just copy-paste.</p></div>
+    <div class="feat-card"><div class="feat-icon" style="background:rgba(168,85,247,.12)">👥</div><h3>Live Mentor Sessions</h3><p>Weekly group sessions and async Q&A with engineers from top tech companies.</p></div>
+    <div class="feat-card"><div class="feat-icon" style="background:rgba(239,68,68,.12)">🎯</div><h3>Career Placement</h3><p>Resume reviews, mock interviews, and warm intros to our 200+ hiring partner companies.</p></div>
+    <div class="feat-card"><div class="feat-icon" style="background:rgba(0,229,160,.12)">🌍</div><h3>Global Community</h3><p>Discord with 14,000+ devs. Find a study buddy, get code reviews, celebrate wins together.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="background:var(--bg)">
+<div class="section-wrap">
+  <div class="s-label">Student Stories</div>
+  <h2 class="s-title">Real people. Real results.</h2>
+  <div class="testi-grid">
+    <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"I went from zero coding knowledge to landing a junior frontend role in 5 months. UpSkills' project-based approach made all the difference — I had a real portfolio to show."</p><div class="testi-author"><div class="author-av">JR</div><div><div class="author-name">Juan Reyes</div><div class="author-role">Frontend Dev @ Kumu</div></div></div></div>
+    <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"Tried 3 other platforms before UpSkills. This is the only one where I didn't quit halfway. The AI hints helped me think, not just copy answers. Game changer."</p><div class="testi-author"><div class="author-av" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)">MA</div><div><div class="author-name">Maria Andres</div><div class="author-role">Full-stack Dev @ Globe</div></div></div></div>
+    <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"The Python for Data Science course is unreal. Landed a data analyst role at a startup 3 weeks after finishing. Worth every peso I spent on the Pro plan."</p><div class="testi-author"><div class="author-av" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">KL</div><div><div class="author-name">Karl Lim</div><div class="author-role">Data Analyst @ PayMongo</div></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="features-bg">
+<div class="section-wrap">
+  <div class="s-label">Pricing</div>
+  <h2 class="s-title">Simple. No surprises.</h2>
+  <p class="s-sub">Start free forever. Upgrade when you're ready to go all-in on your career.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="plan-name">Free</div><div class="plan-price"><sup>₱</sup>0</div><div class="plan-period">Forever free</div>
+      <ul class="plan-features"><li><span class="chk">✓</span> 10 beginner courses</li><li><span class="chk">✓</span> Browser IDE</li><li><span class="chk">✓</span> Community access</li><li><span class="x">✗</span> Mentor sessions</li><li><span class="x">✗</span> Career support</li><li><span class="x">✗</span> Certificate</li></ul>
+      <button class="plan-btn ghost" onclick="openModal('signup')">Get Started →</button>
+    </div>
+    <div class="price-card popular">
+      <div class="popular-badge">Most Popular</div>
+      <div class="plan-name">Pro</div><div class="plan-price"><sup>₱</sup>499</div><div class="plan-period">per month</div>
+      <ul class="plan-features"><li><span class="chk">✓</span> All 60+ courses</li><li><span class="chk">✓</span> AI Code Assistant</li><li><span class="chk">✓</span> Weekly mentor sessions</li><li><span class="chk">✓</span> Career placement support</li><li><span class="chk">✓</span> Verified certificate</li><li><span class="chk">✓</span> Priority support</li></ul>
+      <button class="plan-btn solid" onclick="openModal('signup')">Start Pro →</button>
+    </div>
+    <div class="price-card">
+      <div class="plan-name">Teams</div><div class="plan-price" style="font-size:2rem">Custom</div><div class="plan-period">for your company</div>
+      <ul class="plan-features"><li><span class="chk">✓</span> Everything in Pro</li><li><span class="chk">✓</span> Admin dashboard</li><li><span class="chk">✓</span> Custom learning paths</li><li><span class="chk">✓</span> Dedicated trainer</li><li><span class="chk">✓</span> SSO & integrations</li><li><span class="chk">✓</span> SLA support</li></ul>
+      <button class="plan-btn ghost" onclick="openModal('signup')">Contact Sales →</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Your first line of code<br/>starts here.</h2>
+  <p>Join 14,000+ Filipinos and developers worldwide leveling up with UpSkills.</p>
+  <button class="btn-primary" style="font-size:1.05rem;padding:1rem 2.5rem" onclick="openModal('signup')">Create Free Account →</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">UpSkills</div>
+  <nav class="footer-links"><a href="#">About</a><a href="#">Courses</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Privacy</a><a href="#">Terms</a></nav>
+  <span class="footer-copy">© 2026 UpSkills Inc. All rights reserved.</span>
+</footer>
+
+<!-- AUTH/ENROLL MODAL -->
+<div class="overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div class="modal-logo">UpSkills</div>
+
+    <!-- Tab toggle (hidden on enroll mode) -->
+    <div class="tab-row" id="tab-row">
+      <button class="tab-btn active" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+      <button class="tab-btn" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+    </div>
+
+    <h2 id="modal-title">Create your account</h2>
+    <p class="modal-sub" id="modal-sub">Join free and start learning today.</p>
+
+    <!-- SIGN UP fields -->
+    <div id="fields-signup">
+      <div class="fgrp"><label>Full Name</label><input type="text" id="f-name" placeholder="Juan dela Cruz"/></div>
+      <div class="fgrp"><label>Email Address</label><input type="email" id="f-email" placeholder="juan@gmail.com"/></div>
+      <div class="fgrp"><label>Password</label><input type="password" id="f-pass" placeholder="Min. 6 characters"/></div>
+      <div class="fgrp"><label>I want to learn</label>
+        <select id="f-track">
+          <option>Web Development</option><option>Data Science</option><option>Mobile Development</option>
+          <option>AI & Machine Learning</option><option>DevOps & Cloud</option><option>UI/UX Design</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SIGN IN fields -->
+    <div id="fields-signin" style="display:none">
+      <div class="fgrp"><label>Email Address</label><input type="email" id="si-email" placeholder="juan@gmail.com"/></div>
+      <div class="fgrp"><label>Password</label><input type="password" id="si-pass" placeholder="Your password"/></div>
+    </div>
+
+    <!-- ENROLL-ONLY fields (shown in enroll mode) -->
+    <div id="fields-enroll" style="display:none">
+      <div class="fgrp"><label>Full Name</label><input type="text" id="en-name" placeholder="Juan dela Cruz"/></div>
+      <div class="fgrp"><label>Email Address</label><input type="email" id="en-email" placeholder="juan@gmail.com"/></div>
+      <div class="fgrp"><label>Track</label>
+        <select id="en-track">
+          <option>Web Development</option><option>Data Science</option><option>Mobile Development</option>
+          <option>AI & Machine Learning</option><option>DevOps & Cloud</option><option>UI/UX Design</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">Create Free Account →</button>
+    <div class="form-msg" id="form-msg"></div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL MODAL -->
+<div class="overlay" id="admin-overlay">
+  <div class="modal" style="width:min(800px,95vw);max-height:90vh;overflow-y:auto">
+    <button class="modal-x" onclick="document.getElementById('admin-overlay').classList.remove('open')">✕</button>
+    <div class="modal-logo">UpSkills</div>
+    <h2>Admin Dashboard</h2>
+    <p class="modal-sub">Manage students and enrollments</p>
+
+    <div id="admin-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.25rem 0">
+      <div style="background:#0a0f1a;border-radius:10px;padding:1rem;text-align:center">
+        <div style="font-family:var(--display);font-size:1.8rem;font-weight:800;color:var(--green)" id="as-students">—</div>
+        <div style="color:var(--muted);font-size:.78rem;margin-top:4px">Students</div>
+      </div>
+      <div style="background:#0a0f1a;border-radius:10px;padding:1rem;text-align:center">
+        <div style="font-family:var(--display);font-size:1.8rem;font-weight:800;color:var(--blue)" id="as-enrollments">—</div>
+        <div style="color:var(--muted);font-size:.78rem;margin-top:4px">Enrollments</div>
+      </div>
+      <div style="background:#0a0f1a;border-radius:10px;padding:1rem;text-align:center">
+        <div style="font-family:var(--display);font-size:1.8rem;font-weight:800;color:var(--yellow)" id="as-courses">—</div>
+        <div style="color:var(--muted);font-size:.78rem;margin-top:4px">Courses</div>
+      </div>
+    </div>
+
+    <div style="font-size:.8rem;font-weight:700;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem">Recent Enrollments</div>
+    <div id="admin-table" style="overflow-x:auto">
+      <div style="color:var(--muted);font-size:.85rem;padding:.5rem 0">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONFIG ─────────────────────────────────────────────────────
+// 👇 Replace with your Render backend URL after deploying
+const API = 'https://YOUR-APP-NAME.onrender.com';
+
+// ─── STATE ──────────────────────────────────────────────────────
+let currentMode  = 'signup'; // signup | signin | enroll
+let enrollCourse = '';
+let currentUser  = null;
+
+// Restore session
+const saved = localStorage.getItem('upskills_token');
+if (saved) restoreSession(saved);
+
+async function restoreSession(token) {
+  try {
+    const r = await fetch(`${API}/api/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!r.ok) { localStorage.removeItem('upskills_token'); return; }
+    currentUser = await r.json();
+    updateNavForUser(currentUser);
+  } catch { localStorage.removeItem('upskills_token'); }
+}
+
+function updateNavForUser(u) {
+  document.getElementById('nav-auth').style.display = 'none';
+  const chip = document.getElementById('user-chip');
+  chip.style.display = 'flex';
+  const initials = u.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('chip-av').textContent = initials;
+  document.getElementById('chip-name').textContent = u.name.split(' ')[0];
+  if (u.role === 'admin') document.getElementById('admin-link').style.display = 'block';
+}
+
+function logout() {
+  localStorage.removeItem('upskills_token');
+  currentUser = null;
+  document.getElementById('nav-auth').style.display = 'flex';
+  document.getElementById('user-chip').style.display = 'none';
+  showToast('Logged out!');
+}
+
+// ─── COURSES ────────────────────────────────────────────────────
+const lvClass = { Beginner:'lv-beginner', Intermediate:'lv-intermediate', Advanced:'lv-advanced' };
+
+async function loadCourses() {
+  try {
+    const r = await fetch(`${API}/api/courses`);
+    const courses = await r.json();
+    const grid = document.getElementById('courses-grid');
+    grid.innerHTML = courses.map(c => `
+      <div class="course-card">
+        <div class="thumb-wrap">
+          <img class="course-thumb" src="${c.image_url||''}" alt="${c.title}" loading="lazy" onerror="this.style.display='none'"/>
+          <span class="thumb-level ${lvClass[c.level]||'lv-beginner'}">${c.level}</span>
+        </div>
+        <div class="course-body">
+          <div class="course-title">${c.title}</div>
+          <div class="course-desc">${c.description}</div>
+          <div class="course-footer">
+            <div class="course-meta-info">
+              <span>⏱ ${c.duration||'—'}</span>
+              <span>👥 ${(c.students||0).toLocaleString()}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:.6rem">
+              <span class="course-price ${c.price===0?'price-free':'price-paid'}">${c.price===0?'FREE':'₱'+c.price}</span>
+              <button class="enroll-btn" onclick="openModal('enroll','${c.title.replace(/'/g,"\\'")}')">Enroll</button>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+  } catch {
+    document.getElementById('courses-grid').innerHTML = '<p style="color:var(--muted);padding:2rem 0">Could not load courses. Make sure the backend is running.</p>';
+  }
+}
+
+// ─── MODAL ──────────────────────────────────────────────────────
+function openModal(mode = 'signup', course = '') {
+  currentMode = mode;
+  enrollCourse = course;
+  clearMsg();
+
+  const tabRow = document.getElementById('tab-row');
+  const fSignup = document.getElementById('fields-signup');
+  const fSignin = document.getElementById('fields-signin');
+  const fEnroll = document.getElementById('fields-enroll');
+  const btn = document.getElementById('submit-btn');
+
+  tabRow.style.display = (mode === 'enroll') ? 'none' : 'flex';
+  fSignup.style.display = (mode === 'signup') ? 'block' : 'none';
+  fSignin.style.display = (mode === 'signin') ? 'block' : 'none';
+  fEnroll.style.display = (mode === 'enroll') ? 'block' : 'none';
+
+  if (mode === 'signup') {
+    document.getElementById('modal-title').textContent = 'Create your account';
+    document.getElementById('modal-sub').textContent = 'Join free and start learning today.';
+    btn.textContent = 'Create Free Account →';
+    switchTab('signup');
+  } else if (mode === 'signin') {
+    document.getElementById('modal-title').textContent = 'Welcome back';
+    document.getElementById('modal-sub').textContent = 'Sign in to continue your journey.';
+    btn.textContent = 'Sign In →';
+    switchTab('signin');
+  } else if (mode === 'enroll') {
+    document.getElementById('modal-title').textContent = 'Enroll Now';
+    document.getElementById('modal-sub').textContent = course + ' — fill in your details below.';
+    btn.textContent = 'Enroll Now →';
+    // Pre-fill if logged in
+    if (currentUser) {
+      document.getElementById('en-name').value = currentUser.name;
+      document.getElementById('en-email').value = currentUser.email;
+    }
+  }
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function switchTab(tab) {
+  currentMode = tab;
+  document.getElementById('tab-signup').className = 'tab-btn' + (tab==='signup'?' active':'');
+  document.getElementById('tab-signin').className = 'tab-btn' + (tab==='signin'?' active':'');
+  document.getElementById('fields-signup').style.display = tab==='signup'?'block':'none';
+  document.getElementById('fields-signin').style.display = tab==='signin'?'block':'none';
+  const btn = document.getElementById('submit-btn');
+  if (tab === 'signup') {
+    document.getElementById('modal-title').textContent = 'Create your account';
+    document.getElementById('modal-sub').textContent = 'Join free and start learning today.';
+    btn.textContent = 'Create Free Account →';
+  } else {
+    document.getElementById('modal-title').textContent = 'Welcome back';
+    document.getElementById('modal-sub').textContent = 'Sign in to continue your journey.';
+    btn.textContent = 'Sign In →';
+  }
+  clearMsg();
+}
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+document.getElementById('modal-overlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+
+// ─── SUBMIT ─────────────────────────────────────────────────────
+async function handleSubmit() {
+  if (currentMode === 'signup')  return doSignup();
+  if (currentMode === 'signin')  return doSignin();
+  if (currentMode === 'enroll')  return doEnroll();
+}
+
+async function doSignup() {
+  const name  = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const pass  = document.getElementById('f-pass').value;
+  const track = document.getElementById('f-track').value;
+  if (!name || !email || !pass) return showMsg('err','Please fill in all fields.');
+  if (pass.length < 6) return showMsg('err','Password must be at least 6 characters.');
+  setBusy(true,'Creating account…');
+  try {
+    const r = await fetch(`${API}/api/auth/register`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ name, email, password: pass, track })
+    });
+    const d = await r.json();
+    if (!r.ok) return showMsg('err', d.error || 'Something went wrong.');
+    showMsg('ok','🎉 Account created! Check your email to verify.');
+    showToast('Welcome to UpSkills! 🚀');
+    setBusy(false,'Create Free Account →');
+    setTimeout(closeModal, 3000);
+  } catch { showMsg('err','Cannot reach the server. Is the backend running?'); setBusy(false,'Create Free Account →'); }
+}
+
+async function doSignin() {
+  const email = document.getElementById('si-email').value.trim();
+  const pass  = document.getElementById('si-pass').value;
+  if (!email || !pass) return showMsg('err','Please fill in all fields.');
+  setBusy(true,'Signing in…');
+  try {
+    const r = await fetch(`${API}/api/auth/login`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password: pass })
+    });
+    const d = await r.json();
+    if (!r.ok) return showMsg('err', d.error || 'Invalid credentials.');
+    localStorage.setItem('upskills_token', d.token);
+    currentUser = d.user;
+    updateNavForUser(d.user);
+    showMsg('ok','✓ Signed in!');
+    showToast(`Welcome back, ${d.user.name.split(' ')[0]}! 👋`);
+    setBusy(false,'Sign In →');
+    setTimeout(closeModal, 1500);
+  } catch { showMsg('err','Cannot reach the server.'); setBusy(false,'Sign In →'); }
+}
+
+async function doEnroll() {
+  const name  = document.getElementById('en-name').value.trim();
+  const email = document.getElementById('en-email').value.trim();
+  const track = document.getElementById('en-track').value;
+  if (!name || !email) return showMsg('err','Please fill in all fields.');
+  setBusy(true,'Enrolling…');
+  const token = localStorage.getItem('upskills_token');
+  const headers = {'Content-Type':'application/json'};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  try {
+    const r = await fetch(`${API}/api/enrollments`, {
+      method:'POST', headers,
+      body: JSON.stringify({ name, email, track, course: enrollCourse })
+    });
+    const d = await r.json();
+    if (!r.ok) return showMsg('err', d.error || 'Enrollment failed.');
+    showMsg('ok','🎉 Enrolled! Check your email for confirmation.');
+    showToast('Welcome to UpSkills! 🚀');
+    setBusy(false,'Enroll Now →');
+    setTimeout(closeModal, 3000);
+  } catch { showMsg('err','Cannot reach the server.'); setBusy(false,'Enroll Now →'); }
+}
+
+// ─── ADMIN PANEL ────────────────────────────────────────────────
+async function showAdminPanel() {
+  document.getElementById('admin-overlay').classList.add('open');
+  const token = localStorage.getItem('upskills_token');
+  const h = { Authorization: `Bearer ${token}` };
+  try {
+    const r = await fetch(`${API}/api/courses/admin/stats`, { headers: h });
+    const d = await r.json();
+    document.getElementById('as-students').textContent    = d.stats.totalStudents;
+    document.getElementById('as-enrollments').textContent = d.stats.totalEnrollments;
+    document.getElementById('as-courses').textContent     = d.stats.totalCourses;
+
+    const rows = d.recentEnrollments.map(e => `
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:.6rem .5rem;font-size:.82rem">${e.name}</td>
+        <td style="padding:.6rem .5rem;font-size:.82rem;color:var(--muted2)">${e.email}</td>
+        <td style="padding:.6rem .5rem;font-size:.82rem">${e.course||'—'}</td>
+        <td style="padding:.6rem .5rem;font-size:.82rem;color:var(--muted)">${e.track||'—'}</td>
+        <td style="padding:.6rem .5rem;font-size:.75rem;color:var(--muted)">${new Date(e.created_at).toLocaleDateString('en-PH')}</td>
+        <td style="padding:.6rem .5rem"><span style="background:rgba(0,229,160,.12);color:var(--green);border-radius:99px;padding:2px 10px;font-size:.72rem;font-weight:700">${e.status||'confirmed'}</span></td>
+      </tr>`).join('');
+
+    document.getElementById('admin-table').innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-family:var(--font)">
+        <thead><tr style="border-bottom:1px solid var(--border2)">
+          <th style="text-align:left;padding:.5rem;font-size:.75rem;color:var(--muted);font-weight:600">Name</th>
+          <th style="text-align:left;padding:.5rem;font-size:.75rem;color:var(--muted);font-weight:600">Email</th>
+          <th style="text-align:left;padding:.5rem;font-size:.75rem;color:var(--muted);font-weight:600">Course</th>
+          <th style="text-align:left;padding:.5rem;font-size:.75rem;color:var(--muted);font-weight:600">Track</th>
+          <th style="text-align:left;padding:.5rem;font-size:.75rem;color:var(--muted);font-weight:600">Date</th>
+          <th style="text-align:left;padding:.5rem;font-size:.75rem;color:var(--muted);font-weight:600">Status</th>
+        </tr></thead>
+        <tbody>${rows || '<tr><td colspan="6" style="padding:1rem;color:var(--muted);font-size:.85rem">No enrollments yet.</td></tr>'}</tbody>
+      </table>`;
+  } catch(e) {
+    document.getElementById('admin-table').innerHTML = '<p style="color:#ff8080;font-size:.85rem">Failed to load. Make sure you are logged in as admin.</p>';
+  }
+}
+
+document.getElementById('admin-overlay').addEventListener('click', e => { if(e.target===e.currentTarget) e.target.classList.remove('open'); });
+
+// ─── HELPERS ────────────────────────────────────────────────────
+function setBusy(busy, label) {
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = busy;
+  btn.textContent = label;
+}
+function showMsg(type, text) {
+  const el = document.getElementById('form-msg');
+  el.className = 'form-msg ' + type;
+  el.textContent = text;
+}
+function clearMsg() {
+  const el = document.getElementById('form-msg');
+  el.className = 'form-msg';
+  el.textContent = '';
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────
+loadCourses();
+</script>
+</body>
+</html>
